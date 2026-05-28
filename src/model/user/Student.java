@@ -4,10 +4,9 @@ import model.course.Course;
 import java.util.*;
 public class Student extends User {
     private List<Course > courses = new ArrayList<>();;
-    static int idMaker = 1;
+    private static int idMaker = 1;
     public Student(String name , String password){
-        super("STU-",name, password , idMaker);
-        ++idMaker;
+        super("STU-",name, password , idMaker++);
     }
     @Override
     protected void showMenu() {

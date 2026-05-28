@@ -1,10 +1,9 @@
 package model.user;
 
 public class Admin extends User{
-    static int idMaker = 1;
+    private static int idMaker = 1;
     public Admin(String name, String password) {
-        super("A-",name, password , idMaker);
-        ++idMaker;
+        super("A-",name, password , idMaker++);
     }
     @Override
     protected void showMenu() {
