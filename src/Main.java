@@ -14,12 +14,12 @@ public class Main {
     public static void main(String[] args) {
         var scn = new Scanner(System.in);
         boolean flag = true;
+        System.out.println("╔═════════════════════════════════════════╗");
+        System.out.println("║       UNIVERSITY ENROLLMENT SYSTEM      ║");
+        System.out.println("║          Welcome! Please Login          ║");
+        System.out.println("╚═════════════════════════════════════════╝");
+        System.out.println();
         while (flag){
-            System.out.println("╔═════════════════════════════════════════╗");
-            System.out.println("║       UNIVERSITY ENROLLMENT SYSTEM      ║");
-            System.out.println("║          Welcome! Please Login          ║");
-            System.out.println("╚═════════════════════════════════════════╝");
-            System.out.println();
 //            do{
 //                System.out.println("1. Login");
 //                System.out.println("0. Logout");
@@ -76,6 +76,18 @@ public class Main {
     }
 
     private static void handleMenu(Admin admin , int choice , Scanner scn){
+        switch (choice) {
+            case 1:
+                Course course = initCourse(scn);
+                admin.addCourse(course);
+                break;
+            case 2:
+                User user = initUser(scn);
+                admin.addUser(user);
+                break;
+            case 0:
+                break;
+        }
 
     }
     private static void handleMenu(Professor professor , int choice){
