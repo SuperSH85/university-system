@@ -59,6 +59,7 @@ public class Student extends User {
         }
 
         this.courses.add(course);
+        course.setCapacity(course.getCapacity() - 1);
         course.addStudent(this);
     }
 

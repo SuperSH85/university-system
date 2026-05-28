@@ -67,6 +67,11 @@ public class Course implements Searchable {
     public void removeStudent(Student student){
         this.students.remove(student);
     }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public String toString() {
         return courseID + " | " + title + " | " + credits + " credits | " + schedule;
