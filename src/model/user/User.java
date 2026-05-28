@@ -34,6 +34,6 @@ public abstract class User implements Searchable {
 
     @Override
     public boolean matches(String keyword) {
-        return false;
+        return this.userID.equals(keyword);
     }
 }
