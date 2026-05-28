@@ -13,7 +13,7 @@ public class Course implements Searchable {
     private CourseTime schedule;
     private List<Student> students = new ArrayList<>();
     private Professor professor;
-    static int idMaker = 0;
+    private static int idMaker = 0;
 
     public Course(String title ,
                   int credits ,
@@ -25,9 +25,44 @@ public class Course implements Searchable {
         this.credits = credits;
         this.schedule = schedule;
         this.professor = professor;
+        professor.addCourse(this);
     }
     @Override
     public boolean matches(String keyword) {
         return false;
+    }
+
+    public String getCourseID() {
+        return courseID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public CourseTime getSchedule() {
+        return schedule;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    @Override
+    public String toString() {
+        return courseID + " | " + title + " | " + credits + " credits | " + schedule;
+
     }
 }
