@@ -50,7 +50,7 @@ public class Student extends User {
                 throw new ScheduleConflictException("Schedule conflict with: " + c.getTitle());
             }
         }
-        if (totalCredits > 20){
+        if (totalCredits + course.getCredits() > 20){
             throw new CreditLimitExceededException("Credit limit exceeded! Max 20 credits allowed. Current: " + totalCredits);
         }
 
