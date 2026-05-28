@@ -17,6 +17,9 @@ public class Admin extends User{
         System.out.println("2. Add New User");
         System.out.println("0. Logout");
         System.out.println("======================");
+        int choice = scn.nextInt();
+        //throw invalid  if choice not between the options or not int
+        return choice;
     }
 
     @Override

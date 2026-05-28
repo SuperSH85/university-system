@@ -15,6 +15,9 @@ public class Professor extends User {
         System.out.println("2. Course Students");
         System.out.println("0. Logout");
         System.out.println("==========================");
+        int choice = scn.nextInt();
+        //throw invalid  if choice not between the options or not int
+        return choice;
     }
 
     @Override
