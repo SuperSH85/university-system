@@ -1,3 +1,6 @@
+import database.UniversitySystem;
+import model.user.User;
+
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -9,11 +12,25 @@ public class Main {
             System.out.println("║          Welcome! Please Login          ║");
             System.out.println("╚═════════════════════════════════════════╝");
             System.out.println();
-
-            System.out.println("Enter your Name: ");
-            String name = scn.nextLine();
-            System.out.println("Enter your Password: ");
-            String password = scn.nextLine();
+            String name ;
+            String password;
+            do {
+                System.out.println("Enter your Name: ");
+                name = scn.nextLine();
+                System.out.println("Enter your Password: ");
+                password = scn.nextLine();
+            }while (isUserExist(name , password));
         }
+    }
+
+    private static boolean isUserExist(String name , String password){
+        boolean flag = false;
+        for (User user : UniversitySystem.getUsers()){
+            if (user.getName().equals(name) && user.getPassword().equals(password)){
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 }
