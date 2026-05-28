@@ -1,31 +1,49 @@
 package database;
 
 import model.course.Course;
-import model.user.User;
+import model.user.Admin;
+import model.user.Professor;
+import model.user.Student;
 import java.util.*;
 
 public class UniversitySystem {
-    private List<User> users = new ArrayList<>();;
-    private List<Course> courses = new ArrayList<>();;
+    private final Admin admin = new Admin("admin" ,"admin");
+    private List<Student> students = new ArrayList<>();
+    private List<Professor> professors = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
 
-    //CR-User
-    protected void create(User user){
-        this.users.add(user);
+    //CR-Student
+    public void create(Student student){
+        this.students.add(student);
     }
-    protected void remove(User user){
-        this.users.remove(user);
+    public void remove(Student student){
+        this.students.remove(student);
     }
-
+    //CR-Professor
+    public void create(Professor professor){
+        this.professors.add(professor);
+    }
+    public void remove(Professor professor){
+        this.professors.remove(professor);
+    }
     //CR-Course
-    protected void create(Course course){
+    public void create(Course course){
         this.courses.add(course);
     }
-    protected void remove(Course course){
+    public void remove(Course course){
         this.courses.remove(course);
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Professor> getProfessors() {
+        return professors;
+    }
+
+    public Admin getAdmin() {
+        return admin;
     }
 
     public List<Course> getCourses() {
