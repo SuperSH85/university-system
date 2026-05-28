@@ -2,6 +2,8 @@ package model.user;
 
 import model.Searchable;
 
+import java.util.Scanner;
+
 public abstract class User implements Searchable {
     private String userID;
     private String name;
@@ -12,7 +14,7 @@ public abstract class User implements Searchable {
         this.name = name;
         this.password = password;
     }
-    public abstract void showMenu();
+    public abstract void showMenu(Scanner scn);
 
     public void setName(String name) {
         this.name = name;
