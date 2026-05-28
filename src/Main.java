@@ -33,7 +33,7 @@ public class Main {
                 name = scn.nextLine();
                 System.out.println("Enter your Password: ");
                 password = scn.nextLine();
-            }while (isUserExist(name , password));
+            }while (!isUserExist(name , password));
 
             User user = findUser(name , password);
 
@@ -53,7 +53,7 @@ public class Main {
     }
 
     private static User findUser(String name , String password){
-        User user;
+        User user = null;
         boolean flag = false;
         for (User tempUser : UniversitySystem.getUsers()){
             if (tempUser.getName().equals(name) && tempUser.getPassword().equals(password)){

@@ -17,6 +17,11 @@ public class Professor extends User {
         System.out.println("==========================");
     }
 
+    @Override
+    public void handleMenu(int choice) {
+
+    }
+
     public List<Course> getCourses(){
         return this.courses;
     }

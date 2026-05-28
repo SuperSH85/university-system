@@ -19,6 +19,11 @@ public class Admin extends User{
         System.out.println("======================");
     }
 
+    @Override
+    public void handleMenu(int choice) {
+
+    }
+
     public void addCourse(Course course){
         UniversitySystem.create(course);
     }
