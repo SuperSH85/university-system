@@ -27,10 +27,6 @@ public class CourseTime {
 
     @Override
     public String toString() {
-        return "CourseTime{" +
-                "day=" + day +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                '}';
+        return day + " " + startTime + "-" + endTime;
     }
 }
