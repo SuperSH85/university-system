@@ -4,7 +4,7 @@ import model.course.Course;
 import java.util.*;
 public class Professor extends User {
     private static int idMaker = 1;
-    private List<Course> courses = new ArrayList<>();;
+    private List<Course> courses = new ArrayList<>();
     public Professor(String name, String password) {
         super("PRO-",name, password , idMaker++);
     }
@@ -15,6 +15,10 @@ public class Professor extends User {
         System.out.println("2. Course Students");
         System.out.println("0. Logout");
         System.out.println("==========================");
+    }
+
+    public List<Course> getCourses(){
+        return this.courses;
     }
 
     public void getMyCourse(){
