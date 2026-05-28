@@ -24,4 +24,11 @@ public class UniversitySystem {
         this.courses.remove(course);
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
 }
