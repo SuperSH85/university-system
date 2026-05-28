@@ -91,9 +91,6 @@ public class Main {
 
     }
     private static void handleMenu(Professor professor , int choice ,Scanner scn){
-        System.out.println("1. My Courses");
-        System.out.println("2. Course Students");
-        System.out.println("0. Logout");
         switch (choice) {
             case 1:
                 professor.getMyCourse();
