@@ -4,49 +4,60 @@ import model.course.Course;
 import model.user.Admin;
 import model.user.Professor;
 import model.user.Student;
+import model.user.User;
+
 import java.util.*;
 
 public class UniversitySystem {
-    private final Admin admin = new Admin("admin" ,"admin");
-    private List<Student> students = new ArrayList<>();
-    private List<Professor> professors = new ArrayList<>();
-    private List<Course> courses = new ArrayList<>();
+    private static final Admin admin = new Admin("admin" ,"admin");
+    private static List<Student> students = new ArrayList<>();
+    private static List<Professor> professors = new ArrayList<>();
+    private static List<Course> courses = new ArrayList<>();
 
+    private UniversitySystem() {}
     //CR-Student
-    public void create(Student student){
-        this.students.add(student);
+    public static void create(Student student){
+        students.add(student);
     }
-    public void remove(Student student){
-        this.students.remove(student);
+    public static void remove(Student student){
+        students.remove(student);
     }
     //CR-Professor
-    public void create(Professor professor){
-        this.professors.add(professor);
+    public static void create(Professor professor){
+        professors.add(professor);
     }
-    public void remove(Professor professor){
-        this.professors.remove(professor);
+    public static void remove(Professor professor){
+        professors.remove(professor);
     }
     //CR-Course
-    public void create(Course course){
-        this.courses.add(course);
+    public static void create(Course course){
+        courses.add(course);
     }
-    public void remove(Course course){
-        this.courses.remove(course);
+    public static void remove(Course course){
+        courses.remove(course);
     }
 
-    public List<Student> getStudents() {
+    public static List<Student> getStudents() {
         return students;
     }
 
-    public List<Professor> getProfessors() {
+    public static List<Professor> getProfessors() {
         return professors;
     }
 
-    public Admin getAdmin() {
+    public static Admin getAdmin() {
         return admin;
     }
 
-    public List<Course> getCourses() {
+    public static List<Course> getCourses() {
         return courses;
+    }
+
+    public static List<User> getAllUsers() {
+        List<User> all = new ArrayList<>();
+        all.add(admin);
+        all.addAll(students);
+        all.addAll(professors);
+        return all;
     }
 }
