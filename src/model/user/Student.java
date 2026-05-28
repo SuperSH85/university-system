@@ -1,8 +1,8 @@
 package model.user;
 import database.UniversitySystem;
 import model.course.Course;
-
 import java.util.*;
+
 public class Student extends User {
     private List<Course > courses = new ArrayList<>();;
     private static int idMaker = 1;
@@ -30,18 +30,23 @@ public class Student extends User {
 
     public void enrollCourse(Course course){
         this.courses.add(course);
+        course.addStudent(this);
     }
 
     public void dropCourse(Course course){
         this.courses.remove(course);
+        course.removeStudent(this);
     }
 
     public void getMyCourse(){
         int temp = 1;
+        int totalCredits = 0;
         System.out.println("===== MY COURSES =====");
         for (Course course : this.courses){
             System.out.println((temp++) + ". " + course);
+            totalCredits += course.getCredits();
         }
+        System.out.println("Total Credits: " + totalCredits);
         System.out.println("======================");
     }
 }
