@@ -12,6 +12,20 @@ public class Main {
             System.out.println("║          Welcome! Please Login          ║");
             System.out.println("╚═════════════════════════════════════════╝");
             System.out.println();
+//            do{
+//                System.out.println("1. Login");
+//                System.out.println("0. Logout");
+//                try {
+//                    int welcome = scn.nextInt();
+//                    if (welcome != 0 || welcome != 1){
+//                        throw
+//                    }
+//                }catch (){
+//
+//                }
+//
+//
+//            }while (welcome == 1);
             String name ;
             String password;
             do {
@@ -22,6 +36,8 @@ public class Main {
             }while (isUserExist(name , password));
 
             User user = findUser(name , password);
+
+            user.showMenu();
         }
     }
 
