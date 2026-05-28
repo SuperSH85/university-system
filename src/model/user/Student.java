@@ -10,7 +10,7 @@ public class Student extends User {
         super("STU-",name, password , idMaker++);
     }
     @Override
-    protected void showMenu() {
+    public void showMenu() {
         System.out.println("===== STUDENT MENU =====");
         System.out.println("1. View All Courses");
         System.out.println("2. Enroll Course");

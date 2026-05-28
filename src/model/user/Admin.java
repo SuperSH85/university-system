@@ -9,7 +9,7 @@ public class Admin extends User{
         super("A-",name, password , idMaker++);
     }
     @Override
-    protected void showMenu() {
+    public void showMenu() {
         System.out.println("===== ADMIN MENU =====");
         System.out.println("1. Add New Course");
         System.out.println("2. Add New User");

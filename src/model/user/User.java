@@ -12,7 +12,7 @@ public abstract class User implements Searchable {
         this.name = name;
         this.password = password;
     }
-    protected abstract void showMenu();
+    public abstract void showMenu();
 
     public void setName(String name) {
         this.name = name;
