@@ -90,8 +90,21 @@ public class Main {
         }
 
     }
-    private static void handleMenu(Professor professor , int choice){
-
+    private static void handleMenu(Professor professor , int choice ,Scanner scn){
+        System.out.println("1. My Courses");
+        System.out.println("2. Course Students");
+        System.out.println("0. Logout");
+        switch (choice) {
+            case 1:
+                professor.getMyCourse();
+                break;
+            case 2:
+                Course course = askForCourse(professor, scn);
+                professor.getCourseStudents(course);
+                break;
+            case 0:
+                break;
+        }
     }
     private static void handleMenu(Student student , int choice){
 
@@ -118,7 +131,6 @@ public class Main {
 
         CourseTime schedule = new CourseTime(day, startTime, endTime);
 
-        boolean flag = false;
         Professor professor = null;
 
         System.out.println("Select professor:");
@@ -164,5 +176,23 @@ public class Main {
             System.out.println("User created successfully! ID: " + newUser.getId());
         }
         return newUser;
+    }
+
+    private static Course askForCourse(Professor professor , Scanner scn){
+        Course course = null;
+        System.out.println("Select course:");
+        List<Course> courses = professor.getCourses();
+        for (Course c : courses) {
+            if (u instanceof Professor) {
+                System.out.println(c.getCourseID() + ": " + c.getTitle());
+            }
+        }
+        String profChoice = scn.nextLine();
+        for (Course c : courses) {
+            if (c.matches(profChoice)) {
+                course = c;
+            }
+        }
+        return course;
     }
 }
