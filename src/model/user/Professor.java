@@ -20,11 +20,6 @@ public class Professor extends User {
         return choice;
     }
 
-    @Override
-    public void handleMenu(int choice) {
-
-    }
-
     public List<Course> getCourses(){
         return this.courses;
     }

@@ -15,7 +15,6 @@ public abstract class User implements Searchable {
         this.password = password;
     }
     public abstract int showMenu(Scanner scn);
-    public abstract void handleMenu(int choice);
 
     public void setName(String name) {
         this.name = name;
