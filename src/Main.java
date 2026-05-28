@@ -125,4 +125,32 @@ public class Main {
         Course course = new Course(title, credits, capacity, schedule, professor);
         return course;
     }
+
+    private static User initUser(Scanner scn){
+        System.out.println("Enter user type: ");
+        System.out.println("1. Student (STU-)");
+        System.out.println("2. Professor (PRO-)");
+        System.out.println("3. Admin (A-)");
+        int type = scn.nextInt();
+        scn.nextLine();
+
+        System.out.println("Enter name: ");
+        String name = scn.nextLine();
+
+        System.out.println("Enter password: ");
+        String password = scn.nextLine();
+
+        User newUser = switch (type) {
+            case 1 -> new Student(name, password);
+            case 2 -> new Professor(name, password);
+            case 3 -> new Admin(name, password);
+            default -> null;
+        };
+
+        if (newUser != null) {
+            UniversitySystem.create(newUser);
+            System.out.println("User created successfully! ID: " + newUser.getId());
+        }
+        return newUser;
+    }
 }
