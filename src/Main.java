@@ -11,63 +11,76 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 public class Main {
+    private static boolean flag = true;
     public static void main(String[] args) {
         var scn = new Scanner(System.in);
-        boolean flag = true;
         System.out.println("╔═════════════════════════════════════════╗");
         System.out.println("║       UNIVERSITY ENROLLMENT SYSTEM      ║");
         System.out.println("║          Welcome! Please Login          ║");
         System.out.println("╚═════════════════════════════════════════╝");
         System.out.println();
-        while (flag){
-//            do{
-//                System.out.println("1. Login");
-//                System.out.println("0. Logout");
-//                try {
-//                    int welcome = scn.nextInt();
-//                    if (welcome != 0 || welcome != 1){
-//                        throw
-//                    }
-//                }catch (){
-//
-//                }
-//
-//
-//            }while (welcome == 1);
-            String name ;
-            String password;
-            do {
-                System.out.println("Enter your Name: ");
-                name = scn.nextLine();
-                System.out.println("Enter your Password: ");
-                password = scn.nextLine();
-            }while (!isUserExist(name , password));
 
-            User user = findUser(name , password);
+        while(true){
+            flag = true;
+            int welcome = loginExitChoice(scn);
+            if (welcome == 0){
+                break;
+            }
+            while (flag) {
+                User user = authentication(scn);
 
-            int choice = user.showMenu(scn);
-
+                int choice = user.showMenu(scn);
+                if (user instanceof Admin) {
+                    handleMenu((Admin) user, choice, scn);
+                } else if (user instanceof Professor) {
+                    handleMenu((Professor) user, choice, scn);
+                } else if (user instanceof Student) {
+                    handleMenu((Student) user, choice, scn);
+                }
+            }
         }
+        System.out.println();
+        System.out.println();
+        System.out.println("Goodbye");
+    }
+
+    private static int loginExitChoice(Scanner scn){
+        System.out.println("1. Login");
+        System.out.println("0. Exit");
+        int choice = scn.nextInt();
+        scn.nextLine();
+        return choice;
+    }
+
+    private static User authentication(Scanner scn){
+        String name;
+        String password;
+        System.out.println("Enter your Name: ");
+        name = scn.nextLine();
+        System.out.println("Enter your Password: ");
+        password = scn.nextLine();
+        //!isUserExist(name, password)
+        return findUser(name, password);
     }
 
     private static boolean isUserExist(String name , String password){
-        boolean flag = false;
+        boolean tFlag = false;
         for (User user : UniversitySystem.getUsers()){
             if (user.getName().equals(name) && user.getPassword().equals(password)){
-                flag = true;
+                tFlag = true;
                 break;
             }
         }
-        return flag;
+        return tFlag;
     }
 
     private static User findUser(String name , String password){
         User user = null;
-        boolean flag = false;
+        boolean tFlag = false;
         for (User tempUser : UniversitySystem.getUsers()){
             if (tempUser.getName().equals(name) && tempUser.getPassword().equals(password)){
                 user = tempUser;
-                flag = true;
+                tFlag = true;
                 break;
             }
         }
@@ -86,6 +99,7 @@ public class Main {
                 admin.addUser(user);
                 break;
             case 0:
+                flag = false;
                 break;
         }
 
@@ -100,6 +114,7 @@ public class Main {
                 professor.getCourseStudents(course);
                 break;
             case 0:
+                flag = false;
                 break;
         }
     }
@@ -121,6 +136,7 @@ public class Main {
                 student.getMyCourse();
                 break;
             case 0:
+                flag = false;
                 break;
         }
     }
@@ -131,9 +147,11 @@ public class Main {
 
         System.out.println("Enter credits: ");
         int credits = scn.nextInt();
+        scn.nextLine();
 
         System.out.println("Enter capacity: ");
         int capacity = scn.nextInt();
+        scn.nextLine();
 
         System.out.println("Enter day (e.g. MONDAY): ");
         DayOfWeek day = DayOfWeek.valueOf(scn.next().toUpperCase());
@@ -143,7 +161,7 @@ public class Main {
 
         System.out.println("Enter end time (e.g. 12:00): ");
         LocalTime endTime = LocalTime.parse(scn.next());
-
+        scn.nextLine();
         CourseTime schedule = new CourseTime(day, startTime, endTime);
 
         Professor professor = null;
@@ -212,13 +230,13 @@ public class Main {
     private static Course askForCourse(Student Student , Scanner scn){
         Course course = null;
         System.out.println("Select course:");
-        List<Course> courses = Student.getCourses();
+        List<Course> courses = UniversitySystem.getCourses();
         for (Course c : courses) {
             System.out.println(c.getCourseID() + ": " + c.getTitle());
         }
-        String profChoice = scn.nextLine();
+        String courseChoice = scn.nextLine();
         for (Course c : courses) {
-            if (c.matches(profChoice)) {
+            if (c.matches(courseChoice)) {
                 course = c;
             }
         }
