@@ -21,17 +21,21 @@ public class Professor extends User {
         int temp = 1;
         System.out.println("===== MY COURSES =====");
         for (Course course : this.courses){
-            System.out.println((temp++) + '.' + course);
+            System.out.println((temp++) + ". " + course);
         }
         System.out.println("======================");
     }
 
     public void getCourseStudents(Course course){
         int temp = 1;
-        System.out.println("===== STUDENTS IN"+ course.getName() +" =====");
+        System.out.println("===== STUDENTS IN "+ course.getTitle() +" =====");
         for (Student student : course.getStudents()){
-            System.out.println((temp++) + '.' + Student);
+            System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
         }
         System.out.println("======================");
+    }
+
+    public void addCourse(Course course){
+        this.courses.add(course);
     }
 }
