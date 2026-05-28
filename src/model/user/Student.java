@@ -46,6 +46,9 @@ public class Student extends User {
             if (c.getCourseID().equals(course.getCourseID())){
                 throw new DuplicateCourseException("You are already enrolled in: " + course.getTitle());
             }
+            if(c.getSchedule().overlaps(course.getSchedule())){
+                throw new ScheduleConflictException("Schedule conflict with: " + c.getTitle());
+            }
         }
         if (totalCredits > 20){
             throw new CreditLimitExceededException("Credit limit exceeded! Max 20 credits allowed. Current: " + totalCredits);
