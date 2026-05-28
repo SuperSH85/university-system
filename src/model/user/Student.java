@@ -1,5 +1,9 @@
 package model.user;
 import database.UniversitySystem;
+import exception.CourseFullException;
+import exception.CreditLimitExceededException;
+import exception.DuplicateCourseException;
+import exception.ScheduleConflictException;
 import model.course.Course;
 import java.util.*;
 
@@ -35,7 +39,22 @@ public class Student extends User {
         System.out.println("======================");
     }
 
-    public void enrollCourse(Course course){
+    public void enrollCourse(Course course) throws CourseFullException , CreditLimitExceededException , DuplicateCourseException , ScheduleConflictException {
+        int totalCredits = 0;
+        for (Course c : this.courses){
+            totalCredits += c.getCredits();
+            if (c.getCourseID().equals(course.getCourseID())){
+                throw new DuplicateCourseException("You are already enrolled in: " + course.getTitle());
+            }
+        }
+        if (totalCredits > 20){
+            throw new CreditLimitExceededException("Credit limit exceeded! Max 20 credits allowed. Current: " + totalCredits);
+        }
+
+        if (course.getCapacity() <= 0){
+            throw new CourseFullException("Course is full: " + course.getTitle());
+        }
+
         this.courses.add(course);
         course.addStudent(this);
     }
