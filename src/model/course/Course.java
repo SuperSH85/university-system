@@ -29,7 +29,7 @@ public class Course implements Searchable {
     }
     @Override
     public boolean matches(String keyword) {
-        return false;
+        return this.courseID.equals(keyword);
     }
 
     public String getCourseID() {
@@ -70,6 +70,5 @@ public class Course implements Searchable {
     @Override
     public String toString() {
         return courseID + " | " + title + " | " + credits + " credits | " + schedule;
-
     }
 }
