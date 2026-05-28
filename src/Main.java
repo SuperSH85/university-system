@@ -37,7 +37,7 @@ public class Main {
 
             User user = findUser(name , password);
 
-            user.showMenu(scn);
+            int choice = user.showMenu(scn);
         }
     }
 

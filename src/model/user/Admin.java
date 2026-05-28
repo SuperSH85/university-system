@@ -11,7 +11,7 @@ public class Admin extends User{
         super("A-",name, password , idMaker++);
     }
     @Override
-    public void showMenu(Scanner scn) {
+    public int showMenu(Scanner scn) {
         System.out.println("===== ADMIN MENU =====");
         System.out.println("1. Add New Course");
         System.out.println("2. Add New User");

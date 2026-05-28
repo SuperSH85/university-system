@@ -9,7 +9,7 @@ public class Professor extends User {
         super("PRO-",name, password , idMaker++);
     }
     @Override
-    public void showMenu(Scanner scn) {
+    public int showMenu(Scanner scn) {
         System.out.println("===== PROFESSOR MENU =====");
         System.out.println("1. My Courses");
         System.out.println("2. Course Students");
