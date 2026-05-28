@@ -29,7 +29,7 @@ public abstract class User implements Searchable {
         this.password = password;
     }
 
-    public int getId() {
+    public String getId() {
         return this.userID;
     }
 
