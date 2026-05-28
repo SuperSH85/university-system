@@ -26,7 +26,6 @@ public class Course implements Searchable {
         this.schedule = schedule;
         this.professor = professor;
     }
-
     @Override
     public boolean matches(String keyword) {
         return false;
