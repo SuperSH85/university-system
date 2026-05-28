@@ -37,5 +37,4 @@ public abstract class User implements Searchable {
     public boolean matches(String keyword) {
         return false;
     }
-
 }

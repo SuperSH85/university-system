@@ -18,11 +18,13 @@ public class Course implements Searchable {
     public Course(String title ,
                   int credits ,
                   int capacity ,
-                  CourseTime schedule){
+                  CourseTime schedule ,
+                  Professor professor){
         this.courseID = ++idMaker;
         this.capacity = capacity;
         this.credits = credits;
         this.schedule = schedule;
+        this.professor = professor;
     }
 
     @Override
