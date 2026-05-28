@@ -11,7 +11,7 @@ public class Course implements Searchable {
     private int credits;
     private int capacity;
     private CourseTime schedule;
-    private ArrayList<Student> students;
+    private List<Student> students = new ArrayList<>();
     private Professor professor;
     static int idMaker = 0;
 

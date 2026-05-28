@@ -1,7 +1,7 @@
 package model.user;
 import java.util.*;
 public class Student extends User {
-    private ArrayList<String> courses;
+    private List<String> courses = new ArrayList<>();;
 
     public Student(String name , String password){
         super(name, password);
