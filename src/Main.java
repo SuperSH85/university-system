@@ -103,8 +103,26 @@ public class Main {
                 break;
         }
     }
-    private static void handleMenu(Student student , int choice){
-
+    private static void handleMenu(Student student , int choice , Scanner scn){
+        Course course = null;
+        switch (choice) {
+            case 1:
+                student.viewAllCourses();
+                break;
+            case 2:
+                course = askForCourse(student, scn);
+                student.enrollCourse(course);
+                break;
+            case 3:
+                course = askForCourse(student, scn);
+                student.dropCourse(course);
+                break;
+            case 4:
+                student.getMyCourse();
+                break;
+            case 0:
+                break;
+        }
     }
 
     private static Course initCourse(Scanner scn){
@@ -179,6 +197,22 @@ public class Main {
         Course course = null;
         System.out.println("Select course:");
         List<Course> courses = professor.getCourses();
+        for (Course c : courses) {
+            System.out.println(c.getCourseID() + ": " + c.getTitle());
+        }
+        String profChoice = scn.nextLine();
+        for (Course c : courses) {
+            if (c.matches(profChoice)) {
+                course = c;
+            }
+        }
+        return course;
+    }
+
+    private static Course askForCourse(Student Student , Scanner scn){
+        Course course = null;
+        System.out.println("Select course:");
+        List<Course> courses = Student.getCourses();
         for (Course c : courses) {
             System.out.println(c.getCourseID() + ": " + c.getTitle());
         }
