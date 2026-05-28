@@ -1,6 +1,14 @@
 import database.UniversitySystem;
+import model.course.Course;
+import model.course.CourseTime;
+import model.user.Admin;
+import model.user.Professor;
+import model.user.Student;
 import model.user.User;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -38,6 +46,7 @@ public class Main {
             User user = findUser(name , password);
 
             int choice = user.showMenu(scn);
+
         }
     }
 
@@ -64,5 +73,56 @@ public class Main {
         }
         //if user == null throw exception
         return user;
+    }
+
+    private static void handleMenu(Admin admin , int choice , Scanner scn){
+
+    }
+    private static void handleMenu(Professor professor , int choice){
+
+    }
+    private static void handleMenu(Student student , int choice){
+
+    }
+
+    private static Course initCourse(Scanner scn){
+        System.out.println("Enter course title: ");
+        String title = scn.nextLine();
+
+        System.out.println("Enter credits: ");
+        int credits = scn.nextInt();
+
+        System.out.println("Enter capacity: ");
+        int capacity = scn.nextInt();
+
+        System.out.println("Enter day (e.g. MONDAY): ");
+        DayOfWeek day = DayOfWeek.valueOf(scn.next().toUpperCase());
+
+        System.out.println("Enter start time (e.g. 10:00): ");
+        LocalTime startTime = LocalTime.parse(scn.next());
+
+        System.out.println("Enter end time (e.g. 12:00): ");
+        LocalTime endTime = LocalTime.parse(scn.next());
+
+        CourseTime schedule = new CourseTime(day, startTime, endTime);
+
+        boolean flag = false;
+        Professor professor = null;
+
+        System.out.println("Select professor:");
+        List<User> users = UniversitySystem.getUsers();
+        for (User u : users) {
+            if (u instanceof Professor) {
+                System.out.println(u.getId() + ": " + u.getName());
+            }
+        }
+        String profChoice = scn.nextLine();
+        for (User u : users) {
+            if (u instanceof Professor && u.matches(profChoice)) {
+                professor = (Professor) u;
+            }
+        }
+        Course course = new Course(title, credits, capacity, schedule, professor);
+        return course;
     }
 }
