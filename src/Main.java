@@ -183,9 +183,7 @@ public class Main {
         System.out.println("Select course:");
         List<Course> courses = professor.getCourses();
         for (Course c : courses) {
-            if (u instanceof Professor) {
-                System.out.println(c.getCourseID() + ": " + c.getTitle());
-            }
+            System.out.println(c.getCourseID() + ": " + c.getTitle());
         }
         String profChoice = scn.nextLine();
         for (Course c : courses) {
