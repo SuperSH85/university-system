@@ -20,6 +20,8 @@ public class Main {
                 System.out.println("Enter your Password: ");
                 password = scn.nextLine();
             }while (isUserExist(name , password));
+
+            User user = findUser(name , password);
         }
     }
 
@@ -32,5 +34,19 @@ public class Main {
             }
         }
         return flag;
+    }
+
+    private static User findUser(String name , String password){
+        User user;
+        boolean flag = false;
+        for (User tempUser : UniversitySystem.getUsers()){
+            if (tempUser.getName().equals(name) && tempUser.getPassword().equals(password)){
+                user = tempUser;
+                flag = true;
+                break;
+            }
+        }
+        //if user == null throw exception
+        return user;
     }
 }
