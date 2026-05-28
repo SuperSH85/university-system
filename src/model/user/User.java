@@ -6,10 +6,9 @@ public abstract class User implements Searchable {
     private String userID;
     private String name;
     private String password;
-    static int idMaker = 0;
 
-    public User(String idType ,String name , String password){
-        this.userID = idType + (++idMaker);
+    public User(String idType ,String name , String password , int idMaker){
+        this.userID = idType + (idMaker);
         this.name = name;
         this.password = password;
     }
