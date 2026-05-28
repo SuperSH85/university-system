@@ -25,6 +25,11 @@ public class CourseTime {
         return day;
     }
 
+    public boolean overlaps(CourseTime other) {
+        if (this.day != other.day) return false;
+        return this.startTime.isBefore(other.endTime) &&
+                other.startTime.isBefore(this.endTime);
+    }
     @Override
     public String toString() {
         return day + " " + startTime + "-" + endTime;
