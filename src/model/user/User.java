@@ -3,13 +3,13 @@ package model.user;
 import model.Searchable;
 
 public abstract class User implements Searchable {
-    private int userID;
+    private String userID;
     private String name;
     private String password;
     static int idMaker = 0;
 
-    public User(String name , String password){
-        this.userID = ++idMaker;
+    public User(String idType ,String name , String password){
+        this.userID = idType + (++idMaker);
         this.name = name;
         this.password = password;
     }

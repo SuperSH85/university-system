@@ -3,10 +3,10 @@ import model.course.Course;
 
 import java.util.*;
 public class Student extends User {
-    private List<Course> courses = new ArrayList<>();;
+    private List<Course > courses = new ArrayList<>();;
 
     public Student(String name , String password){
-        super(name, password);
+        super("STU-",name, password);
     }
     @Override
     protected void showMenu() {

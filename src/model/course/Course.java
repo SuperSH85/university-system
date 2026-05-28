@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Course implements Searchable {
 
-    private int courseID;
+    private String courseID;
     private String title;
     private int credits;
     private int capacity;
@@ -20,7 +20,7 @@ public class Course implements Searchable {
                   int capacity ,
                   CourseTime schedule ,
                   Professor professor){
-        this.courseID = ++idMaker;
+        this.courseID = "CRS-" + (++idMaker);
         this.capacity = capacity;
         this.credits = credits;
         this.schedule = schedule;

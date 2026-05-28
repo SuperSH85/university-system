@@ -5,7 +5,7 @@ import java.util.*;
 public class Professor extends User {
     private List<Course> courses = new ArrayList<>();;
     public Professor(String name, String password) {
-        super(name, password);
+        super("PRO-",name, password);
     }
     @Override
     protected void showMenu() {
