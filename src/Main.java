@@ -1,4 +1,5 @@
 import database.UniversitySystem;
+import exception.CourseFullException;
 import exception.InvalidInputException;
 import exception.UserNotFoundException;
 import model.course.Course;
@@ -80,10 +81,9 @@ public class Main {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Invalid input! Please enter a number.");
         }
-        if (tChoice != 0 || tChoice != 1){
+        if (tChoice != 0 && tChoice != 1){
             throw new InvalidInputException("Invalid input! Please enter 0 or 1");
         }
-        scn.nextLine();
         return tChoice;
     }
 
@@ -95,7 +95,7 @@ public class Main {
         System.out.println("Enter your Password: ");
         password = scn.nextLine();
         if(!isUserExist(name, password)){
-            throw new UserNotFoundException("wrong name or password at login")
+            throw new UserNotFoundException("wrong name or password at login");
         }
         return findUser(name, password);
     }
@@ -179,11 +179,27 @@ public class Main {
                 break;
             case 2:
                 course = askForCourse(student, scn);
-                student.enrollCourse(course);
+                try {
+                    student.enrollCourse(course);
+                    System.out.println("✅ Enrolled successfully!");
+                } catch (CourseFullException e) {
+                    System.out.println("❌ " + e.getMessage());
+                    try{
+                        course.addToWaitlist(student);
+                    }catch (Exception a){
+                        System.out.println(a.getMessage());
+                    }
+                } catch (Exception e) {
+                    System.out.println("❌ " + e.getMessage());
+                }
                 break;
             case 3:
                 course = askForCourse(student, scn);
-                student.dropCourse(course);
+                try {
+                    student.dropCourse(course);
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
                 break;
             case 4:
                 student.getMyCourse();
