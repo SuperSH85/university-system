@@ -1,5 +1,6 @@
 import database.UniversitySystem;
 import exception.InvalidInputException;
+import exception.UserNotFoundException;
 import model.course.Course;
 import model.course.CourseTime;
 import model.user.Admin;
@@ -36,7 +37,15 @@ public class Main {
                 break;
             }
             while (flag) {
-                User user = authentication(scn);
+                User user;
+                while (true){
+                    try {
+                        user = authentication(scn);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 int choice = user.showMenu(scn);
                 if (user instanceof Admin) {
@@ -70,14 +79,16 @@ public class Main {
         return tChoice;
     }
 
-    private static User authentication(Scanner scn){
+    private static User authentication(Scanner scn) throws UserNotFoundException{
         String name;
         String password;
         System.out.println("Enter your Name: ");
         name = scn.nextLine();
         System.out.println("Enter your Password: ");
         password = scn.nextLine();
-        //!isUserExist(name, password)
+        if(!isUserExist(name, password)){
+            throw new UserNotFoundException("wrong name or password at login")
+        }
         return findUser(name, password);
     }
 
