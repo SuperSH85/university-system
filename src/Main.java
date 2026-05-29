@@ -1,4 +1,5 @@
 import database.UniversitySystem;
+import exception.InvalidInputException;
 import model.course.Course;
 import model.course.CourseTime;
 import model.user.Admin;
@@ -22,7 +23,15 @@ public class Main {
 
         while(true){
             flag = true;
-            int welcome = loginExitChoice(scn);
+            int welcome;
+            while (true){
+                try {
+                    welcome = loginExitChoice(scn);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
             if (welcome == 0){
                 break;
             }
@@ -44,12 +53,21 @@ public class Main {
         System.out.println("Goodbye");
     }
 
-    private static int loginExitChoice(Scanner scn){
+    private static int loginExitChoice(Scanner scn) throws InvalidInputException {
         System.out.println("1. Login");
         System.out.println("0. Exit");
-        int choice = scn.nextInt();
+        String choice = scn.nextLine();
+        int tChoice;
+        try {
+            tChoice = Integer.parseInt(choice);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid input! Please enter a number.");
+        }
+        if (tChoice != 0 || tChoice != 1){
+            throw new InvalidInputException("Invalid input! Please enter 0 or 1");
+        }
         scn.nextLine();
-        return choice;
+        return tChoice;
     }
 
     private static User authentication(Scanner scn){
