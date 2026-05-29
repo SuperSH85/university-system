@@ -128,11 +128,27 @@ public class Main {
     private static void handleMenu(Admin admin , int choice , Scanner scn){
         switch (choice) {
             case 1:
-                Course course = initCourse(scn);
+                Course course;
+                while (true){
+                    try {
+                        course = initCourse(scn);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 admin.addCourse(course);
                 break;
             case 2:
-                User user = initUser(scn);
+                User user;
+                while (true){
+                    try {
+                        user = initUser(scn);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 admin.addUser(user);
                 break;
             case 0:
@@ -178,30 +194,41 @@ public class Main {
         }
     }
 
-    private static Course initCourse(Scanner scn){
+    private static Course initCourse(Scanner scn) throws InvalidInputException {
         System.out.println("Enter course title: ");
         String title = scn.nextLine();
 
         System.out.println("Enter credits: ");
-        int credits = scn.nextInt();
-        scn.nextLine();
+        int credits = safeIntInput(scn);
 
         System.out.println("Enter capacity: ");
-        int capacity = scn.nextInt();
-        scn.nextLine();
+        int capacity = safeIntInput(scn);
 
         System.out.println("Enter day (e.g. MONDAY): ");
-        DayOfWeek day = DayOfWeek.valueOf(scn.next().toUpperCase());
+        DayOfWeek day;
+        try {
+            day = DayOfWeek.valueOf(scn.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Invalid day! Use e.g. MONDAY, TUESDAY...");
+        }
 
         System.out.println("Enter start time (e.g. 10:00): ");
-        LocalTime startTime = LocalTime.parse(scn.next());
+        LocalTime startTime;
+        try {
+            startTime = LocalTime.parse(scn.nextLine());
+        } catch (Exception e) {
+            throw new InvalidInputException("Invalid time format! Use e.g. 10:00");
+        }
 
         System.out.println("Enter end time (e.g. 12:00): ");
-        LocalTime endTime = LocalTime.parse(scn.next());
-        scn.nextLine();
-        CourseTime schedule = new CourseTime(day, startTime, endTime);
+        LocalTime endTime;
+        try {
+            endTime = LocalTime.parse(scn.nextLine());
+        } catch (Exception e) {
+            throw new InvalidInputException("Invalid time format! Use e.g. 12:00");
+        }
 
-        Professor professor = null;
+        CourseTime schedule = new CourseTime(day, startTime, endTime);
 
         System.out.println("Select professor:");
         List<User> users = UniversitySystem.getUsers();
@@ -210,22 +237,31 @@ public class Main {
                 System.out.println(u.getId() + ": " + u.getName());
             }
         }
+
+        Professor professor = null;
         String profChoice = scn.nextLine();
         for (User u : users) {
             if (u instanceof Professor && u.matches(profChoice)) {
                 professor = (Professor) u;
             }
         }
-        Course course = new Course(title, credits, capacity, schedule, professor);
-        return course;
+
+        if (professor == null) {
+            throw new InvalidInputException("Professor not found!");
+        }
+
+        return new Course(title, credits, capacity, schedule, professor);
     }
 
-    private static User initUser(Scanner scn){
+    private static User initUser(Scanner scn) throws InvalidInputException{
         System.out.println("Enter user type: ");
         System.out.println("1. Student (STU-)");
         System.out.println("2. Professor (PRO-)");
         System.out.println("3. Admin (A-)");
-        int type = scn.nextInt();
+        int type = safeIntInput(scn);
+        if (type < 1 || type > 3) {
+            throw new InvalidInputException("Invalid choice! Enter 1, 2, or 3.");
+        }
         scn.nextLine();
 
         System.out.println("Enter name: ");
@@ -240,11 +276,7 @@ public class Main {
             case 3 -> new Admin(name, password);
             default -> null;
         };
-
-        if (newUser != null) {
-            UniversitySystem.create(newUser);
-            System.out.println("User created successfully! ID: " + newUser.getId());
-        }
+        System.out.println("User created successfully! ID: " + newUser.getId());
         return newUser;
     }
 
@@ -278,5 +310,14 @@ public class Main {
             }
         }
         return course;
+    }
+
+    private static int safeIntInput(Scanner scn) throws InvalidInputException {
+        String input = scn.nextLine();
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid input! Please enter a number.");
+        }
     }
 }
