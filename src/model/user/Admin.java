@@ -25,10 +25,9 @@ public class Admin extends User{
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Invalid input! Please enter a number.");
         }
-        if (tChoice != 0 || tChoice != 1 || tChoice != 2){
+        if (tChoice != 0 && tChoice != 1 && tChoice != 2){
             throw new InvalidInputException("Invalid input! Please enter (0 , 1 , 2)");
         }
-        scn.nextLine();
         return tChoice;
     }
 
