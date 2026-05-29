@@ -11,7 +11,7 @@ public class Student extends User {
         super("STU-",name, password , idMaker++);
     }
     @Override
-    public int showMenu(Scanner scn) {
+    public int showMenu(Scanner scn) throws  InvalidInputException{
         System.out.println("===== STUDENT MENU =====");
         System.out.println("1. View All Courses");
         System.out.println("2. Enroll Course");
@@ -19,9 +19,18 @@ public class Student extends User {
         System.out.println("4. My Courses");
         System.out.println("0. Logout");
         System.out.println("========================");
-        int choice = scn.nextInt();
-        //throw invalid  if choice not between the options or not int
-        return choice;
+        String choice = scn.nextLine();
+        int tChoice;
+        try {
+            tChoice = Integer.parseInt(choice);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid input! Please enter a number.");
+        }
+        if (tChoice != 0 || tChoice != 1 || tChoice != 2 || tChoice != 3 || tChoice != 4){
+            throw new InvalidInputException("Invalid input! Please enter (0 , 1 , 2 , 3 , 4)");
+        }
+        scn.nextLine();
+        return tChoice;
     }
 
     public List<Course> getCourses(){

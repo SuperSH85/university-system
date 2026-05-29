@@ -1,5 +1,6 @@
 package model.user;
 
+import exception.InvalidInputException;
 import model.Searchable;
 
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public abstract class User implements Searchable {
         this.name = name;
         this.password = password;
     }
-    public abstract int showMenu(Scanner scn);
+    public abstract int showMenu(Scanner scn) throws InvalidInputException;
 
     public void setName(String name) {
         this.name = name;

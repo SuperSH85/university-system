@@ -47,7 +47,15 @@ public class Main {
                     }
                 }
 
-                int choice = user.showMenu(scn);
+                int choice ;
+                while (true){
+                    try {
+                        choice = user.showMenu(scn);;
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 if (user instanceof Admin) {
                     handleMenu((Admin) user, choice, scn);
                 } else if (user instanceof Professor) {
