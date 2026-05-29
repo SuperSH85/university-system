@@ -1,5 +1,6 @@
 import database.UniversitySystem;
 import exception.CourseFullException;
+import exception.CourseNotFoundException;
 import exception.InvalidInputException;
 import exception.UserNotFoundException;
 import model.course.Course;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 public class Main {
     private static boolean flag = true;
-    public static void main(String[] args) {
+    static void main(String[] args) {
         var scn = new Scanner(System.in);
         System.out.println("╔═════════════════════════════════════════╗");
         System.out.println("║       UNIVERSITY ENROLLMENT SYSTEM      ║");
@@ -48,10 +49,10 @@ public class Main {
                     }
                 }
 
-                int choice ;
+                int choice;
                 while (true){
                     try {
-                        choice = user.showMenu(scn);;
+                        choice = user.showMenu(scn);
                         break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -113,15 +114,12 @@ public class Main {
 
     private static User findUser(String name , String password){
         User user = null;
-        boolean tFlag = false;
         for (User tempUser : UniversitySystem.getUsers()){
             if (tempUser.getName().equals(name) && tempUser.getPassword().equals(password)){
                 user = tempUser;
-                tFlag = true;
                 break;
             }
         }
-        //if user == null throw exception
         return user;
     }
 
@@ -163,7 +161,15 @@ public class Main {
                 professor.getMyCourse();
                 break;
             case 2:
-                Course course = askForCourse(professor, scn);
+                Course course;
+                while (true){
+                    try {
+                        course = askForCourse(professor, scn);
+                        break;
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
                 professor.getCourseStudents(course);
                 break;
             case 0:
@@ -172,13 +178,20 @@ public class Main {
         }
     }
     private static void handleMenu(Student student , int choice , Scanner scn){
-        Course course = null;
+        Course course;
         switch (choice) {
             case 1:
                 student.viewAllCourses();
                 break;
             case 2:
-                course = askForCourse(student, scn);
+                while (true) {
+                    try {
+                        course = askForCourse(student, scn);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 try {
                     student.enrollCourse(course);
                     System.out.println("✅ Enrolled successfully!");
@@ -186,6 +199,7 @@ public class Main {
                     System.out.println("❌ " + e.getMessage());
                     try{
                         course.addToWaitlist(student);
+                        System.out.println("✅ Added to waitlist!");
                     }catch (Exception a){
                         System.out.println(a.getMessage());
                     }
@@ -194,7 +208,14 @@ public class Main {
                 }
                 break;
             case 3:
-                course = askForCourse(student, scn);
+                while (true) {
+                    try {
+                        course = askForCourse(student, scn);
+                        break;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
                 try {
                     student.dropCourse(course);
                 }catch (Exception e){
@@ -278,8 +299,6 @@ public class Main {
         if (type < 1 || type > 3) {
             throw new InvalidInputException("Invalid choice! Enter 1, 2, or 3.");
         }
-        scn.nextLine();
-
         System.out.println("Enter name: ");
         String name = scn.nextLine();
 
@@ -296,7 +315,7 @@ public class Main {
         return newUser;
     }
 
-    private static Course askForCourse(Professor professor , Scanner scn){
+    private static Course askForCourse(Professor professor , Scanner scn) throws CourseNotFoundException{
         Course course = null;
         System.out.println("Select course:");
         List<Course> courses = professor.getCourses();
@@ -309,10 +328,13 @@ public class Main {
                 course = c;
             }
         }
+        if (course == null) {
+            throw new CourseNotFoundException("❌ Course not found!");
+        }
         return course;
     }
 
-    private static Course askForCourse(Student Student , Scanner scn){
+    private static Course askForCourse(Student Student , Scanner scn) throws CourseNotFoundException{
         Course course = null;
         System.out.println("Select course:");
         List<Course> courses = UniversitySystem.getCourses();
@@ -324,6 +346,9 @@ public class Main {
             if (c.matches(courseChoice)) {
                 course = c;
             }
+        }
+        if (course == null) {
+            throw new CourseNotFoundException("❌ Course not found!");
         }
         return course;
     }
