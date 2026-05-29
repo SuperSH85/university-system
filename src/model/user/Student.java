@@ -26,10 +26,9 @@ public class Student extends User {
         } catch (NumberFormatException e) {
             throw new InvalidInputException("Invalid input! Please enter a number.");
         }
-        if (tChoice != 0 || tChoice != 1 || tChoice != 2 || tChoice != 3 || tChoice != 4){
+        if (tChoice != 0 && tChoice != 1 && tChoice != 2 && tChoice != 3 && tChoice != 4){
             throw new InvalidInputException("Invalid input! Please enter (0 , 1 , 2 , 3 , 4)");
         }
-        scn.nextLine();
         return tChoice;
     }
 
