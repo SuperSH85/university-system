@@ -1,4 +1,6 @@
 package model.course;
+import exception.CourseNotFoundException;
+import exception.DuplicateCourseException;
 import model.Searchable;
 import model.user.Professor;
 import model.user.Student;
@@ -12,6 +14,7 @@ public class Course implements Searchable {
     private int capacity;
     private CourseTime schedule;
     private List<Student> students = new ArrayList<>();
+    private Queue<Student> waitList = new LinkedList<>();
     private Professor professor;
     private static int idMaker = 0;
 
@@ -60,8 +63,26 @@ public class Course implements Searchable {
         return professor;
     }
 
+    public Queue<Student> getWaitList() {
+        return waitList;
+    }
+
     public void addStudent(Student student){
         this.students.add(student);
+    }
+
+    public void addToWaitlist(Student student) throws DuplicateCourseException{
+        if(this.waitList.contains(student)){
+            throw new DuplicateCourseException("You are already in waitlist for: " + this.title);
+        }
+        this.waitList.add(student);
+    }
+
+    public Student removeFromWaitList(){
+        if (!this.waitList.isEmpty()){
+            return waitList.poll();
+        }
+        return null;
     }
 
     public void removeStudent(Student student){

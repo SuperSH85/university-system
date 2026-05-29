@@ -65,6 +65,15 @@ public class Student extends User {
         }
         this.courses.remove(course);
         course.removeStudent(this);
+        Student waitListStudent = course.removeFromWaitList();
+        if (waitListStudent != null) {
+            try {
+                waitListStudent.enrollCourse(course);
+                System.out.println("✅ " + waitListStudent.getName() + " enrolled from waitlist!");
+            } catch (Exception e) {
+                System.out.println("⚠️ " + waitListStudent.getName() + " could not be enrolled: " + e.getMessage());
+            }
+        }
     }
 
     public void getMyCourse(){
