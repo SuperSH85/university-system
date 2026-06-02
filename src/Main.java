@@ -38,17 +38,16 @@ public class Main {
             if (welcome == 0){
                 break;
             }
-            while (flag) {
-                User user;
-                while (true){
-                    try {
-                        user = authentication(scn);
-                        break;
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+            User user;
+            while (true){
+                try {
+                    user = authentication(scn);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
-
+            }
+            while (flag) {
                 int choice;
                 while (true){
                     try {
