@@ -2,7 +2,6 @@ package model.user;
 
 import exception.InvalidInputException;
 import model.Searchable;
-
 import java.util.Scanner;
 
 public abstract class User implements Searchable {
@@ -15,7 +14,6 @@ public abstract class User implements Searchable {
         this.name = name;
         this.password = password;
     }
-    public abstract int showMenu(Scanner scn) throws InvalidInputException;
 
     public void setName(String name) {
         this.name = name;
@@ -38,5 +36,17 @@ public abstract class User implements Searchable {
     @Override
     public boolean matches(String keyword) {
         return this.userID.equals(keyword);
+    }
+
+    public abstract void showMenu(Scanner scn);
+    protected abstract boolean handleMenu(int choice , Scanner scn);
+
+    protected  int safeIntInput(Scanner scn) throws InvalidInputException {
+        String input = scn.nextLine();
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid input! Please enter a number.");
+        }
     }
 }
