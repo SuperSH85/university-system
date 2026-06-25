@@ -41,7 +41,7 @@ public abstract class User implements Searchable {
     public abstract void showMenu(Scanner scn);
     protected abstract boolean handleMenu(int choice , Scanner scn);
 
-    protected static int safeIntInput(Scanner scn) throws InvalidInputException {
+    protected  int safeIntInput(Scanner scn) throws InvalidInputException {
         String input = scn.nextLine();
         try {
             return Integer.parseInt(input);

@@ -70,38 +70,16 @@ public class Main {
         return tChoice;
     }
 
-    private static User authentication(Scanner scn) throws UserNotFoundException{
-        String name;
-        String password;
+    private static User authentication(Scanner scn) throws UserNotFoundException {
         System.out.println("Enter your Name: ");
-        name = scn.nextLine();
+        String name = scn.nextLine();
         System.out.println("Enter your Password: ");
-        password = scn.nextLine();
-        if(!isUserExist(name, password)){
-            throw new UserNotFoundException("wrong name or password at login");
-        }
-        return findUser(name, password);
-    }
-
-    private static boolean isUserExist(String name , String password){
-        boolean tFlag = false;
-        for (User user : UniversitySystem.getUsers()){
-            if (user.getName().equals(name) && user.getPassword().equals(password)){
-                tFlag = true;
-                break;
+        String password = scn.nextLine();
+        for (User user : UniversitySystem.getUsers()) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                return user;
             }
         }
-        return tFlag;
-    }
-
-    private static User findUser(String name , String password){
-        User user = null;
-        for (User tempUser : UniversitySystem.getUsers()){
-            if (tempUser.getName().equals(name) && tempUser.getPassword().equals(password)){
-                user = tempUser;
-                break;
-            }
-        }
-        return user;
+        throw new UserNotFoundException("Wrong name or password!");
     }
 }

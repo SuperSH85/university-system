@@ -84,12 +84,12 @@ public class Admin extends User{
         return contiueStatus;
     }
 
-    private static User initUser(Scanner scn) throws InvalidInputException , OperationCancelledException{
+    private  User initUser(Scanner scn) throws InvalidInputException , OperationCancelledException{
         System.out.println("Enter user type(1-3) (-1 for exit): ");
         System.out.println("1. Student (STU-)");
         System.out.println("2. Professor (PRO-)");
         System.out.println("3. Admin (A-)");
-        int type = safeIntInput(scn);
+        int type = this.safeIntInput(scn);
         if (type == -1 ) throw new OperationCancelledException();
         if (type < 1 || type > 3) {
             throw new InvalidInputException("Invalid choice! Enter 1, 2, or 3.");
@@ -112,7 +112,7 @@ public class Admin extends User{
         return newUser;
     }
 
-    private static Course initCourse(Scanner scn) throws InvalidInputException  , OperationCancelledException{
+    private Course initCourse(Scanner scn) throws InvalidInputException  , OperationCancelledException{
         System.out.println("Enter course title (-1 for exit): ");
         String title = scn.nextLine();
         if (title.equals("-1")) throw new OperationCancelledException();
