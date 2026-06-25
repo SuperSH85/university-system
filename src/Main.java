@@ -314,7 +314,7 @@ public class Main {
         return newUser;
     }
 
-    private static Course askForCourse(Professor professor , Scanner scn) throws CourseNotFoundException{
+    private static Course askForCourse(Professor professor, Scanner scn) throws CourseNotFoundException{
         Course course = null;
         System.out.println("Select course:");
         List<Course> courses = professor.getCourses();

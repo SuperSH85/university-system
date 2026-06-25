@@ -1,7 +1,7 @@
 package exception;
 
 public class OperationCancelledException extends RuntimeException {
-    public OperationCancelledException(String message) {
+    public OperationCancelledException() {
         super("Operation cancelled.");
     }
 }
