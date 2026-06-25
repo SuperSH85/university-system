@@ -38,8 +38,8 @@ public abstract class User implements Searchable {
         return this.userID.equals(keyword);
     }
 
-    public abstract int showMenu(Scanner scn) throws InvalidInputException;
-    protected abstract void handleMenu(int choice , Scanner scn);
+    public abstract void showMenu(Scanner scn) throws InvalidInputException;
+    protected abstract boolean handleMenu(int choice , Scanner scn);
 
     protected static int safeIntInput(Scanner scn) throws InvalidInputException {
         String input = scn.nextLine();
