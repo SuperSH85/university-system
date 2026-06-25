@@ -38,7 +38,7 @@ public abstract class User implements Searchable {
         return this.userID.equals(keyword);
     }
 
-    public abstract void showMenu(Scanner scn) throws InvalidInputException;
+    public abstract void showMenu(Scanner scn);
     protected abstract boolean handleMenu(int choice , Scanner scn);
 
     protected static int safeIntInput(Scanner scn) throws InvalidInputException {
