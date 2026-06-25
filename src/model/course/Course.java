@@ -23,6 +23,7 @@ public class Course implements Searchable {
                   int capacity ,
                   CourseTime schedule ,
                   Professor professor){
+        this.title = title;
         this.courseID = "CRS-" + (++idMaker);
         this.capacity = capacity;
         this.credits = credits;
