@@ -1,5 +1,7 @@
 package model.user;
+import exception.CourseNotFoundException;
 import exception.InvalidInputException;
+import exception.OperationCancelledException;
 import model.course.Course;
 
 import java.util.*;
@@ -10,23 +12,54 @@ public class Professor extends User {
         super("PRO-",name, password , idMaker++);
     }
     @Override
-    public int showMenu(Scanner scn) throws InvalidInputException {
-        System.out.println("===== PROFESSOR MENU =====");
-        System.out.println("1. My Courses");
-        System.out.println("2. Course Students");
-        System.out.println("0. Logout");
-        System.out.println("==========================");
-        String choice = scn.nextLine();
-        int tChoice;
-        try {
-            tChoice = Integer.parseInt(choice);
-        } catch (NumberFormatException e) {
-            throw new InvalidInputException("Invalid input! Please enter a number.");
+    public void showMenu(Scanner scn){
+        int tChoice = - 99;
+        do{
+            try{
+                System.out.println("===== PROFESSOR MENU =====");
+                System.out.println("1. My Courses");
+                System.out.println("2. Course Students");
+                System.out.println("0. Logout");
+                System.out.println("==========================");
+                tChoice = safeIntInput(scn);
+                if (tChoice != 0 && tChoice != 1 && tChoice != 2) {
+                    throw new InvalidInputException("Invalid input! Please enter (0, 1, 2)");
+                }
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+            }
+        }while (handleMenu(tChoice , scn));
+    }
+
+    @Override
+    protected boolean handleMenu(int choice, Scanner scn) {
+        boolean contiueStatus = true;
+        boolean exit;
+        switch (choice) {
+            case 1:
+                this.getMyCourse();
+                break;
+            case 2:
+                Course course;
+                exit = false;
+                while (true){
+                    try {
+                        course = askForCourse(scn);
+                        break;
+                    }catch (OperationCancelledException j) {
+                        System.out.println(j.getMessage());
+                        exit = true;
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                if (!exit) this.getCourseStudents(course);
+                break;
+            case 0:
+                contiueStatus = false;
+                break;
         }
-        if (tChoice != 0 && tChoice != 1 && tChoice != 2){
-            throw new InvalidInputException("Invalid input! Please enter (0 , 1 , 2 )");
-        }
-        return tChoice;
+        return contiueStatus;
     }
 
     public List<Course> getCourses(){
@@ -40,6 +73,30 @@ public class Professor extends User {
             System.out.println((temp++) + ". " + course);
         }
         System.out.println("======================");
+    }
+
+    private Course askForCourse(Scanner scn) throws CourseNotFoundException , OperationCancelledException {
+        Course course = null;
+        System.out.println("Select course (-1 for exit):");
+        List<Course> courses = this.getCourses();
+        if (courses == null || courses.isEmpty()) {
+            System.out.println("You have no courses!");
+            throw new OperationCancelledException();
+        }
+        for (Course c : courses) {
+            System.out.println(c.getCourseID() + ": " + c.getTitle());
+        }
+        String profChoice = scn.nextLine();
+        if (profChoice.equals("-1")) throw new OperationCancelledException();
+        for (Course c : courses) {
+            if (c.matches(profChoice)) {
+                course = c;
+            }
+        }
+        if (course == null) {
+            throw new CourseNotFoundException("❌ Course not found!");
+        }
+        return course;
     }
 
     public void getCourseStudents(Course course){
