@@ -40,7 +40,7 @@ public class Professor extends User {
                 this.getMyCourse();
                 break;
             case 2:
-                Course course;
+                Course course = null;
                 exit = false;
                 while (true){
                     try {
@@ -49,6 +49,7 @@ public class Professor extends User {
                     }catch (OperationCancelledException j) {
                         System.out.println(j.getMessage());
                         exit = true;
+                        break;
                     } catch (Exception e){
                         System.out.println(e.getMessage());
                     }

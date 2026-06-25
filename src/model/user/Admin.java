@@ -42,7 +42,7 @@ public class Admin extends User{
         boolean exit;
         switch (choice) {
             case 1:
-                Course course;
+                Course course = null;
                 exit = false;
                 while (true){
                     try {
@@ -51,6 +51,7 @@ public class Admin extends User{
                     } catch (OperationCancelledException j) {
                         System.out.println(j.getMessage());
                         exit = true;
+                        break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -60,7 +61,7 @@ public class Admin extends User{
                 }
                 break;
             case 2:
-                User user;
+                User user = null;
                 exit = false;
                 while (true){
                     try {
@@ -69,6 +70,7 @@ public class Admin extends User{
                     } catch (OperationCancelledException j) {
                         System.out.println(j.getMessage());
                         exit = true;
+                        break;
                     }catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -157,14 +159,10 @@ public class Admin extends User{
 
         System.out.println("Select professor (-1 for exit):");
         List<User> users = UniversitySystem.getUsers();
-        if (users == null || users.isEmpty()){
-            System.out.println("No professors available!");
-            throw new OperationCancelledException();
-        }else{
-            for (User u : users) {
-                if (u instanceof Professor) {
-                    System.out.println(u.getId() + ": " + u.getName());
-                }
+
+        for (User u : users) {
+            if (u instanceof Professor) {
+                System.out.println(u.getId() + ": " + u.getName());
             }
         }
 
