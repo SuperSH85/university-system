@@ -99,4 +99,19 @@ public class EnrollmentDAO {
         }
         return false;
     }
+
+    public int getTotalCredits(String studentId) throws SQLException {
+        String sql = "SELECT COALESCE(SUM(c.credits), 0) as total " +
+                "FROM courses c JOIN enrollments e ON c.course_id = e.course_id " +
+                "WHERE e.student_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, studentId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+        }
+        return 0;
+    }
 }
