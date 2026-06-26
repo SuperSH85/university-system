@@ -67,4 +67,18 @@ public class UserDAO {
             default -> throw new SQLException("Unknown role: " + role);
         };
     }
+
+    public User findById(String id) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapToUser(rs);
+            }
+        }
+        return null;
+    }
 }

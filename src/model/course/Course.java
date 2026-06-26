@@ -31,6 +31,17 @@ public class Course implements Searchable {
         this.professor = professor;
         professor.addCourse(this);
     }
+    //for DB
+    public Course(String courseId, String title, int credits,
+                  int capacity, CourseTime schedule, Professor professor) {
+        this.courseID = courseId;
+        this.title = title;
+        this.credits = credits;
+        this.capacity = capacity;
+        this.schedule = schedule;
+        this.professor = professor;
+        professor.addCourse(this);
+    }
     @Override
     public boolean matches(String keyword) {
         return this.courseID.equals(keyword);
