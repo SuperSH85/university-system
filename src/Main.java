@@ -1,18 +1,9 @@
-import database.UniversitySystem;
-import exception.CourseFullException;
-import exception.CourseNotFoundException;
+import database.UserDAO;
 import exception.InvalidInputException;
 import exception.UserNotFoundException;
-import model.course.Course;
-import model.course.CourseTime;
-import model.user.Admin;
-import model.user.Professor;
-import model.user.Student;
 import model.user.User;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Scanner;
 public class Main {
     static void main(String[] args) {
@@ -75,11 +66,13 @@ public class Main {
         String name = scn.nextLine();
         System.out.println("Enter your Password: ");
         String password = scn.nextLine();
-        for (User user : UniversitySystem.getUsers()) {
-            if (user.getName().equals(name) && user.getPassword().equals(password)) {
-                return user;
-            }
+        try {
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.findByNameAndPassword(name, password);
+            if (user == null) throw new UserNotFoundException("Wrong name or password!");
+            return user;
+        } catch (SQLException e) {
+            throw new UserNotFoundException("Database error: " + e.getMessage());
         }
-        throw new UserNotFoundException("Wrong name or password!");
     }
 }
