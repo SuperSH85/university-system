@@ -13,8 +13,14 @@ import java.util.Scanner;
 
 public class Admin extends User{
     private static int idMaker = 1;
+    // for creating NEW Admin (generates ID)
     public Admin(String name, String password) {
-        super("A-",name, password , idMaker++);
+        super("A-" + (++idMaker), name, password);
+    }
+
+    // for loading FROM database (uses existing ID)
+    public Admin(String id, String name, String password) {
+        super(id, name, password);
     }
     @Override
     public void showMenu(Scanner scn){

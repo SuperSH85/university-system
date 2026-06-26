@@ -7,8 +7,14 @@ import java.util.*;
 public class Student extends User {
     private List<Course > courses = new ArrayList<>();
     private static int idMaker = 1;
-    public Student(String name , String password){
-        super("STU-",name, password , idMaker++);
+    // for creating NEW student (generates ID)
+    public Student(String name, String password) {
+        super("STU-" + (++idMaker), name, password);
+    }
+
+    // for loading FROM database (uses existing ID)
+    public Student(String id, String name, String password) {
+        super(id, name, password);
     }
     @Override
     public void showMenu(Scanner scn){

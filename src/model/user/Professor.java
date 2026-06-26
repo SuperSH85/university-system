@@ -8,8 +8,14 @@ import java.util.*;
 public class Professor extends User {
     private static int idMaker = 1;
     private List<Course> courses = new ArrayList<>();
+    // for creating NEW professor (generates ID)
     public Professor(String name, String password) {
-        super("PRO-",name, password , idMaker++);
+        super("PRO-" + (++idMaker), name, password);
+    }
+
+    // for loading FROM database (uses existing ID)
+    public Professor(String id, String name, String password) {
+        super(id, name, password);
     }
     @Override
     public void showMenu(Scanner scn){
