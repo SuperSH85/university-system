@@ -61,9 +61,9 @@ public class UserDAO {
         String role = rs.getString("role");
 
         return switch (role) {
-            case "STUDENT" -> new Student(name, password);
-            case "PROFESSOR" -> new Professor(name, password);
-            case "ADMIN" -> new Admin(name, password);
+            case "STUDENT" -> new Student(id, name, password);
+            case "PROFESSOR" -> new Professor(id, name, password);
+            case "ADMIN" -> new Admin(id, name, password);
             default -> throw new SQLException("Unknown role: " + role);
         };
     }
