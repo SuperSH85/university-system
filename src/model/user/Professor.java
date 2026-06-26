@@ -1,13 +1,13 @@
 package model.user;
+import database.CourseDAO;
 import exception.CourseNotFoundException;
 import exception.InvalidInputException;
 import exception.OperationCancelledException;
 import model.course.Course;
-
+import java.sql.SQLException;
 import java.util.*;
 public class Professor extends User {
     private static int idMaker = 1;
-    private List<Course> courses = new ArrayList<>();
     // for creating NEW professor (generates ID)
     public Professor(String name, String password) {
         super("PRO-" + (++idMaker), name, password);
@@ -69,14 +69,20 @@ public class Professor extends User {
         return contiueStatus;
     }
 
-    public List<Course> getCourses(){
-        return this.courses;
+    public List<Course> getCourses() {
+        try {
+            CourseDAO courseDAO = new CourseDAO();
+            return courseDAO.findByProfessor(this.getId());
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public void getMyCourse(){
         int temp = 1;
         System.out.println("===== MY COURSES =====");
-        for (Course course : this.courses){
+        for (Course course : getCourses()){
             System.out.println((temp++) + ". " + course);
         }
         System.out.println("======================");
@@ -113,10 +119,6 @@ public class Professor extends User {
             System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
         }
         System.out.println("======================");
-    }
-
-    public void addCourse(Course course){
-        this.courses.add(course);
     }
 
     @Override
