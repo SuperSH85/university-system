@@ -188,4 +188,7 @@ public class Admin extends User{
     public void addUser(User user){
         UniversitySystem.create(user);
     }
+
+    @Override
+    public String getRole() { return "ADMIN"; }
 }

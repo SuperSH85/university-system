@@ -49,4 +49,6 @@ public abstract class User implements Searchable {
             throw new InvalidInputException("Invalid input! Please enter a number.");
         }
     }
+
+    public abstract String getRole();
 }

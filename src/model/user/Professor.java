@@ -112,4 +112,7 @@ public class Professor extends User {
     public void addCourse(Course course){
         this.courses.add(course);
     }
+
+    @Override
+    public String getRole() { return "PROFESSOR"; }
 }

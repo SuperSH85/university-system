@@ -189,4 +189,7 @@ public class Student extends User {
         System.out.println("Total Credits: " + totalCredits);
         System.out.println("======================");
     }
+
+    @Override
+    public String getRole() { return "STUDENT"; }
 }
