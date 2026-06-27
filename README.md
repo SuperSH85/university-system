@@ -1,6 +1,5 @@
 # 🎓 University Enrollment System
-
-A CLI-based University Course Enrollment System built in Java, focused on Object-Oriented Programming principles.
+A CLI-based University Course Enrollment System built in Java, focused on Object-Oriented Programming principles with persistent SQLite database storage.
 
 ---
 
@@ -39,15 +38,21 @@ src/
  │       ├── Course.java
  │       └── CourseTime.java
  ├── database/
- │   └── UniversitySystem.java
+ │   ├── DBConnection.java
+ │   ├── UserDAO.java
+ │   ├── CourseDAO.java
+ │   ├── EnrollmentDAO.java
+ │   └── WaitlistDAO.java
  └── exception/
      ├── CourseFullException.java
      ├── CourseNotFoundException.java
      ├── CreditLimitExceededException.java
      ├── DuplicateCourseException.java
      ├── InvalidInputException.java
+     ├── OperationCancelledException.java
      ├── ScheduleConflictException.java
      └── UserNotFoundException.java
+schema.sql
 ```
 
 ---
@@ -57,11 +62,22 @@ src/
 | Concept | Where |
 |--------|-------|
 | **Inheritance** | `Student`, `Professor`, `Admin` extend `User` |
-| **Abstract Class** | `User` with abstract `showMenu()` |
+| **Abstract Class** | `User` with abstract `showMenu()` and `handleMenu()` |
 | **Interface** | `Searchable` implemented by `User` and `Course` |
 | **Polymorphism** | `user.showMenu()` called without knowing user type |
 | **Encapsulation** | All fields private with getters/setters |
-| **Static Utility Class** | `UniversitySystem` as in-memory database |
+| **DAO Pattern** | Separate DAO classes for each DB table |
+
+---
+
+## 🗄️ Database Structure
+
+| Table | Description |
+|-------|-------------|
+| `users` | All users (Admin, Professor, Student) with role column |
+| `courses` | All courses with professor reference |
+| `enrollments` | Student-course many-to-many junction table |
+| `waitlist` | Waitlist queue ordered by request_time |
 
 ---
 
@@ -76,7 +92,8 @@ src/
 
 ## 🕐 Waitlist System
 
-- If a course is full, student can join the waitlist (`Queue<Student>`)
+- If a course is full, student joins the waitlist
+- Waitlist order is preserved by `request_time` in the database
 - When a student drops a course, the first student in the waitlist is automatically enrolled
 - Auto-enrollment checks credit limit and schedule conflicts
 
@@ -84,16 +101,30 @@ src/
 
 ## 🚀 How to Run
 
-1. Clone the repository:
+### 1. Clone the repository
 ```bash
 git clone https://github.com/SuperSH85/university-system.git
 ```
 
-2. Open in IntelliJ IDEA or any Java IDE
+### 2. Add the JDBC Driver
+Download and add to your project libraries:
+- [sqlite-jdbc-3.53.2.0.jar](https://github.com/xerial/sqlite-jdbc/releases)
 
-3. Run `Main.java`
+In IntelliJ: `File → Project Structure → Libraries → + → Java → select the jar`
 
-4. Default admin credentials:
+### 3. Set up the Database
+- Create a new SQLite database file named `university.db` in the project root
+- Run `schema.sql` to create the tables and seed the default admin
+
+### 4. Configure VM Options
+Add this to your run configuration VM options:
+```
+--enable-native-access=ALL-UNNAMED
+```
+
+### 5. Run `Main.java`
+
+Default admin credentials:
 ```
 Name: admin
 Password: admin
@@ -105,17 +136,18 @@ Password: admin
 
 | Type | Format | Example |
 |------|--------|---------|
-| Admin | `A-1` | `A-1` |
-| Professor | `PRO-1` | `PRO-1` |
-| Student | `STU-1` | `STU-1` |
+| Admin | `A-{n}` | `A-1` |
+| Professor | `PRO-{n}` | `PRO-2` |
+| Student | `STU-{n}` | `STU-3` |
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Language:** Java
-- **Storage:** In-memory (ArrayList, Queue)
+- **Storage:** SQLite via JDBC
 - **Interface:** CLI (Command Line)
+- **Driver:** xerial/sqlite-jdbc 3.53.2.0
 
 ---
 
@@ -123,6 +155,22 @@ Password: admin
 
 ```
 CRS-1 | Math | 3 credits | MONDAY 10:00-12:00
+```
+
+---
+
+## 🔄 Resetting the Database
+
+Run the following in DataGrip or DB Browser:
+
+```sql
+DELETE FROM waitlist;
+DELETE FROM enrollments;
+DELETE FROM courses;
+DELETE FROM users;
+
+INSERT INTO users (id, name, password, role)
+VALUES ('A-1', 'admin', 'admin', 'ADMIN');
 ```
 
 ---

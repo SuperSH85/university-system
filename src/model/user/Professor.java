@@ -1,15 +1,22 @@
 package model.user;
+import database.CourseDAO;
+import database.EnrollmentDAO;
 import exception.CourseNotFoundException;
 import exception.InvalidInputException;
 import exception.OperationCancelledException;
 import model.course.Course;
-
+import java.sql.SQLException;
 import java.util.*;
 public class Professor extends User {
-    private static int idMaker = 1;
-    private List<Course> courses = new ArrayList<>();
+    private static int idMaker = 0;
+    // for creating NEW professor (generates ID)
     public Professor(String name, String password) {
-        super("PRO-",name, password , idMaker++);
+        super("PRO-" + (++idMaker), name, password);
+    }
+
+    // for loading FROM database (uses existing ID)
+    public Professor(String id, String name, String password) {
+        super(id, name, password);
     }
     @Override
     public void showMenu(Scanner scn){
@@ -63,14 +70,20 @@ public class Professor extends User {
         return contiueStatus;
     }
 
-    public List<Course> getCourses(){
-        return this.courses;
+    public List<Course> getCourses() {
+        try {
+            CourseDAO courseDAO = new CourseDAO();
+            return courseDAO.findByProfessor(this.getId());
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public void getMyCourse(){
         int temp = 1;
         System.out.println("===== MY COURSES =====");
-        for (Course course : this.courses){
+        for (Course course : getCourses()){
             System.out.println((temp++) + ". " + course);
         }
         System.out.println("======================");
@@ -100,16 +113,21 @@ public class Professor extends User {
         return course;
     }
 
-    public void getCourseStudents(Course course){
+    public void getCourseStudents(Course course) {
         int temp = 1;
-        System.out.println("===== STUDENTS IN "+ course.getTitle() +" =====");
-        for (Student student : course.getStudents()){
-            System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
+        System.out.println("===== STUDENTS IN " + course.getTitle() + " =====");
+        try {
+            EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
+            List<Student> students = enrollmentDAO.findStudentsByCourse(course.getCourseID());
+            for (Student student : students) {
+                System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
         }
         System.out.println("======================");
     }
 
-    public void addCourse(Course course){
-        this.courses.add(course);
-    }
+    @Override
+    public String getRole() { return "PROFESSOR"; }
 }
