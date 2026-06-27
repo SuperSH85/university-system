@@ -1,11 +1,12 @@
 package model.user;
 
-import database.UniversitySystem;
+import database.CourseDAO;
+import database.UserDAO;
 import exception.InvalidInputException;
 import exception.OperationCancelledException;
 import model.course.Course;
 import model.course.CourseTime;
-
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,8 +14,14 @@ import java.util.Scanner;
 
 public class Admin extends User{
     private static int idMaker = 1;
+    // for creating NEW Admin (generates ID)
     public Admin(String name, String password) {
-        super("A-",name, password , idMaker++);
+        super("A-" + (++idMaker), name, password);
+    }
+
+    // for loading FROM database (uses existing ID)
+    public Admin(String id, String name, String password) {
+        super(id, name, password);
     }
     @Override
     public void showMenu(Scanner scn){
@@ -158,7 +165,14 @@ public class Admin extends User{
         CourseTime schedule = new CourseTime(day, startTime, endTime);
 
         System.out.println("Select professor (-1 for exit):");
-        List<User> users = UniversitySystem.getUsers();
+        UserDAO userDAO = new UserDAO();
+        List<User> users;
+        try {
+            users = userDAO.findAll();
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+            throw new OperationCancelledException();
+        }
 
         for (User u : users) {
             if (u instanceof Professor) {
@@ -181,11 +195,24 @@ public class Admin extends User{
         return new Course(title, credits, capacity, schedule, professor);
     }
 
-    public void addCourse(Course course){
-        UniversitySystem.create(course);
+    public void addCourse(Course course)  {
+        try {
+            CourseDAO courseDAO = new CourseDAO();
+            courseDAO.create(course);
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+        }
     }
 
-    public void addUser(User user){
-        UniversitySystem.create(user);
+    public void addUser(User user) {
+        try {
+            UserDAO userDAO = new UserDAO();
+            userDAO.create(user);
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+        }
     }
+
+    @Override
+    public String getRole() { return "ADMIN"; }
 }

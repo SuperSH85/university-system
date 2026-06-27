@@ -9,8 +9,8 @@ public abstract class User implements Searchable {
     private String name;
     private String password;
 
-    public User(String idType ,String name , String password , int idMaker){
-        this.userID = idType + (idMaker);
+    public User(String id, String name, String password) {
+        this.userID = id;
         this.name = name;
         this.password = password;
     }
@@ -49,4 +49,6 @@ public abstract class User implements Searchable {
             throw new InvalidInputException("Invalid input! Please enter a number.");
         }
     }
+
+    public abstract String getRole();
 }
