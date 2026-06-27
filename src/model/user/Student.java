@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class Student extends User {
-    private static int idMaker = 1;
+    private static int idMaker = 0;
     // for creating NEW student (generates ID)
     public Student(String name, String password) {
         super("STU-" + (++idMaker), name, password);

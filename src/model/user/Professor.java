@@ -8,7 +8,7 @@ import model.course.Course;
 import java.sql.SQLException;
 import java.util.*;
 public class Professor extends User {
-    private static int idMaker = 1;
+    private static int idMaker = 0;
     // for creating NEW professor (generates ID)
     public Professor(String name, String password) {
         super("PRO-" + (++idMaker), name, password);
