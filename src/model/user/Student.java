@@ -14,7 +14,6 @@ public class Student extends User {
     public Student(String name, String password) {
         super("STU-" + (++idMaker), name, password);
     }
-
     // for loading FROM database (uses existing ID)
     public Student(String id, String name, String password) {
         super(id, name, password);
@@ -146,7 +145,6 @@ public class Student extends User {
         }
         return course;
     }
-
 
     public void viewAllCourses() throws OperationCancelledException {
         System.out.println("===== ALL COURSES =====");

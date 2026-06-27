@@ -1,5 +1,6 @@
 package model.user;
 import database.CourseDAO;
+import database.EnrollmentDAO;
 import exception.CourseNotFoundException;
 import exception.InvalidInputException;
 import exception.OperationCancelledException;
@@ -112,11 +113,17 @@ public class Professor extends User {
         return course;
     }
 
-    public void getCourseStudents(Course course){
+    public void getCourseStudents(Course course) {
         int temp = 1;
-        System.out.println("===== STUDENTS IN "+ course.getTitle() +" =====");
-        for (Student student : course.getStudents()){
-            System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
+        System.out.println("===== STUDENTS IN " + course.getTitle() + " =====");
+        try {
+            EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
+            List<Student> students = enrollmentDAO.findStudentsByCourse(course.getCourseID());
+            for (Student student : students) {
+                System.out.println((temp++) + ". " + student.getId() + " | " + student.getName());
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
         }
         System.out.println("======================");
     }

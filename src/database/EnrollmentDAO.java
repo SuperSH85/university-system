@@ -3,7 +3,7 @@ package database;
 import model.course.Course;
 import model.course.CourseTime;
 import model.user.Professor;
-
+import model.user.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnrollmentDAO {
-    final int maxCredit = 20;
     public void enroll(String studentId, String courseId) throws SQLException {
         String sql = "INSERT INTO enrollments (student_id, course_id) VALUES (?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -113,5 +112,25 @@ public class EnrollmentDAO {
             }
         }
         return 0;
+    }
+
+    public List<Student> findStudentsByCourse(String courseId) throws SQLException {
+        String sql = "SELECT u.* FROM users u " +
+                "JOIN enrollments e ON u.id = e.student_id " +
+                "WHERE e.course_id = ?";
+        List<Student> students = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, courseId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                students.add(new Student(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("password")
+                ));
+            }
+        }
+        return students;
     }
 }
